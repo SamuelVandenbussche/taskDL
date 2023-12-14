@@ -3,7 +3,7 @@ from PIL import Image
 import matplotlib.pyplot as plt
 import seaborn as sns
 import tensorflow as tf
-import tf.keras as keras
+import tensorflow.keras as keras
 from keras import optimizers
 from keras import layers
 from keras.preprocessing.image import img_to_array
