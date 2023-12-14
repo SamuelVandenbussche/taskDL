@@ -1,6 +1,4 @@
-numpy
-pandas
-scikit-learn
-category_encoders
-matplotlib
-tensorflow
+tensorflow==2.7.0
+numpy==1.19.5
+pandas==1.3.4
+matplotlib==3.4.3
