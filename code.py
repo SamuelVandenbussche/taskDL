@@ -5,12 +5,11 @@ import seaborn as sns
 import numpy as np
 
 import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import optimizers
 from tensorflow.keras import layers
-from tensorflow.keras.optimizers import Adam
-from tensorflow.keras.losses import CategoricalCrossentropy
-from tensorflow.keras.metrics import Accuracy
+from tensorflow.keras.utils import image_dataset_from_directory
 from tensorflow.keras.preprocessing.image import img_to_array
-from tensorflow.keras.preprocessing.image import image_dataset_from_directory
 
 
 # Define the categories
