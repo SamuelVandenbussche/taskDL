@@ -3,11 +3,12 @@ from PIL import Image
 import matplotlib.pyplot as plt
 import seaborn as sns
 import tensorflow as tf
-import keras
+import tf.keras as keras
 from keras import optimizers
 from keras import layers
 from keras.preprocessing.image import img_to_array
 import numpy as np
+from tensorflow.keras.preprocessing import image_dataset_from_directory
 
 # Define the categories
 categories = ["basketbal","golf bal","rugby bal","voetbal","tennis bal"]
@@ -53,23 +54,23 @@ IMG_SIZE = 128
 HEIGTH_FACTOR = 0.2
 WIDTH_FACTOR = 0.2
 
-model = Sequential([
-    Resizing(IMG_SIZE, IMG_SIZE),
-    Rescaling(1./255),
-    RandomFlip("horizontal"),
-    RandomTranslation(HEIGTH_FACTOR, WIDTH_FACTOR),
-    RandomZoom(0.2),
-    Conv2D(32, (3, 3), input_shape=(IMG_SIZE, IMG_SIZE, 3), activation="relu"),
-    MaxPooling2D((2, 2)),
-    Dropout(0.2),
-    Conv2D(32, (3, 3), activation="relu"),
-    Dropout(0.2),
-    Flatten(),
-    Dense(128, activation="relu"),
-    Dense(128, activation="relu"),
-    Dropout(0.5),
-    Dense(128, activation="relu"),
-    Dense(NUM_CLASSES, activation="softmax")
+model = keras.Sequential([
+   keras.layers.Resizing(IMG_SIZE, IMG_SIZE),
+   keras.layers.Rescaling(1./255),
+   keras.layers.experimental.preprocessing.RandomFlip("horizontal"),
+   keras.layers.experimental.preprocessing.RandomTranslation(HEIGTH_FACTOR, WIDTH_FACTOR),
+   keras.layers.experimental.preprocessing.RandomZoom(0.2),
+   keras.layers.Conv2D(32, (3, 3), input_shape=(IMG_SIZE, IMG_SIZE, 3), activation="relu"),
+   keras.layers.MaxPooling2D((2, 2)),
+   keras.layers.Dropout(0.2),
+   keras.layers.Conv2D(32, (3, 3), activation="relu"),
+   keras.layers.Dropout(0.2),
+   keras.layers.Flatten(),
+   keras.layers.Dense(128, activation="relu"),
+   keras.layers.Dense(128, activation="relu"),
+   keras.layers.Dropout(0.5),
+   keras.layers.Dense(128, activation="relu"),
+   keras.layers.Dense(NUM_CLASSES, activation="softmax")
 ])
 
 model.compile(optimizer=Adam(), loss=CategoricalCrossentropy(), metrics=[Accuracy()])
