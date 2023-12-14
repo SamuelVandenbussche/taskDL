@@ -1,5 +1,5 @@
-Pillow==8.4.0
-matplotlib==3.4.3
-seaborn==0.11.2
-tensorflow==2.6.0
-numpy==1.19.5
+Pillow
+matplotlib
+seaborn
+tensorflow
+numpy
