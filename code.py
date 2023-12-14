@@ -5,7 +5,6 @@ import seaborn as sns
 import numpy as np
 
 import tensorflow as tf
-from tensorflow import keras
 from tensorflow.keras import layers
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.losses import CategoricalCrossentropy
@@ -59,22 +58,22 @@ HEIGTH_FACTOR = 0.2
 WIDTH_FACTOR = 0.2
 
 model = keras.Sequential([
-   keras.layers.Resizing(IMG_SIZE, IMG_SIZE),
-   keras.layers.Rescaling(1./255),
-   keras.layers.experimental.preprocessing.RandomFlip("horizontal"),
-   keras.layers.experimental.preprocessing.RandomTranslation(HEIGTH_FACTOR, WIDTH_FACTOR),
-   keras.layers.experimental.preprocessing.RandomZoom(0.2),
-   keras.layers.Conv2D(32, (3, 3), input_shape=(IMG_SIZE, IMG_SIZE, 3), activation="relu"),
-   keras.layers.MaxPooling2D((2, 2)),
-   keras.layers.Dropout(0.2),
-   keras.layers.Conv2D(32, (3, 3), activation="relu"),
-   keras.layers.Dropout(0.2),
-   keras.layers.Flatten(),
-   keras.layers.Dense(128, activation="relu"),
-   keras.layers.Dense(128, activation="relu"),
-   keras.layers.Dropout(0.5),
-   keras.layers.Dense(128, activation="relu"),
-   keras.layers.Dense(NUM_CLASSES, activation="softmax")
+   layers.Resizing(IMG_SIZE, IMG_SIZE),
+   layers.Rescaling(1./255),
+   layers.experimental.preprocessing.RandomFlip("horizontal"),
+   layers.experimental.preprocessing.RandomTranslation(HEIGTH_FACTOR, WIDTH_FACTOR),
+   layers.experimental.preprocessing.RandomZoom(0.2),
+   layers.Conv2D(32, (3, 3), input_shape=(IMG_SIZE, IMG_SIZE, 3), activation="relu"),
+   layers.MaxPooling2D((2, 2)),
+   layers.Dropout(0.2),
+   layers.Conv2D(32, (3, 3), activation="relu"),
+   layers.Dropout(0.2),
+   layers.Flatten(),
+   layers.Dense(128, activation="relu"),
+   layers.Dense(128, activation="relu"),
+   layers.Dropout(0.5),
+   layers.Dense(128, activation="relu"),
+   layers.Dense(NUM_CLASSES, activation="softmax")
 ])
 
 model.compile(optimizer=Adam(), loss=CategoricalCrossentropy(), metrics=[Accuracy()])
