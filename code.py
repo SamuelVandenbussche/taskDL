@@ -37,7 +37,7 @@ image_size = (IMG_SIZE, IMG_SIZE)
 validation_split = 0.2
 
 train_set = image_dataset_from_directory(
-    directory=r'C:\task_images\train',
+    directory=r'.\task_images\train',
     labels='inferred',
     label_mode='categorical',
     batch_size=batch_size,
@@ -48,7 +48,7 @@ train_set = image_dataset_from_directory(
 )
 
 validation_set = image_dataset_from_directory(
-    directory=r'C:\task_images\train',
+    directory=r'.\task_images\train',
     labels='inferred',
     label_mode='categorical',
     batch_size=batch_size,
@@ -56,15 +56,6 @@ validation_set = image_dataset_from_directory(
     validation_split=validation_split,
     subset='validation',
     seed=123
-)
-
-# Create the testing dataset from the 'test' directory
-test_set = image_dataset_from_directory(
-    directory=r'C:\task_images\test',
-    labels='inferred',
-    label_mode='categorical',
-    batch_size=batch_size,
-    image_size=image_size
 )
 
 # Streamlit app
