@@ -143,8 +143,6 @@ st.header("Model Testing")
 st.header("Model Testing")
 
 if uploaded_file is not None:
-   # Load the model
-   loaded_model = tf.keras.models.load_model("trained_model.tf")
 
    # Preprocess the uploaded image
    img = Image.open(uploaded_file)
@@ -154,7 +152,7 @@ if uploaded_file is not None:
    img_array /= 255.0
 
    # Make predictions
-   predictions = loaded_model.predict(img_array)
+   predictions = model.predict(img_array)
 
    # Display predictions
    st.write("Predictions:")
