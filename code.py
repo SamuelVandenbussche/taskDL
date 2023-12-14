@@ -3,10 +3,10 @@ from PIL import Image
 import matplotlib.pyplot as plt
 import seaborn as sns
 import tensorflow as tf
-from tensorflow import keras
-from tensorflow.keras import optimizers
-from tensorflow.keras import layers
-from tensorflow.keras.preprocessing.image import img_to_array
+import keras
+from keras import optimizers
+from keras import layers
+from keras.preprocessing.image import img_to_array
 import numpy as np
 
 # Define the categories
