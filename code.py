@@ -3,13 +3,15 @@ from PIL import Image
 import matplotlib.pyplot as plt
 import seaborn as sns
 import tensorflow as tf
-from tensorflow.keras.layers import Resizing, Rescaling, RandomFlip, RandomTranslation, RandomZoom, Conv2D, MaxPooling2D, Dropout, Flatten, Dense
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.optimizers import Adam
-from tensorflow.keras.losses import CategoricalCrossentropy
-from tensorflow.keras.metrics import Accuracy
+from tensorflow import keras
+from tensorflow.keras import optimizers
+from tensorflow.keras import layers
 from tensorflow.keras.preprocessing.image import img_to_array
 import numpy as np
+
+# Define the categories
+categories = ["basketbal","golf bal","rugby bal","voetbal","tennis bal"]
+
 
 # Set Streamlit app title
 st.title("AI Task Deep Learning")
@@ -27,7 +29,7 @@ image_paths = ["./1a5c3f9b51.jpg", "./1b71d0b173.jpg", "./1d50dc8500.jpg", "./3a
 
 # Display images in a row
 row_images = [Image.open(image_path) for image_path in image_paths]
-st.image(row_images, caption=["tennis bal", "voetbal", "rugby bal", "golf bal", "basketbal"], width=150)
+st.image(row_images, caption=["basketbal","golf bal","rugby bal","voetbal","tennis bal"], width=150)
 
 # Add section for uploading a picture
 st.header("Upload a Picture")
@@ -78,7 +80,7 @@ image_size = (IMG_SIZE, IMG_SIZE)
 validation_split = 0.2
 
 train_set = image_dataset_from_directory(
-    directory=r'C:\task_images\train',
+    directory=r'.\task_images\train',
     labels='inferred',
     label_mode='categorical',
     batch_size=batch_size,
@@ -89,7 +91,7 @@ train_set = image_dataset_from_directory(
 )
 
 validation_set = image_dataset_from_directory(
-    directory=r'C:\task_images\train',
+    directory=r'.\task_images\train',
     labels='inferred',
     label_mode='categorical',
     batch_size=batch_size,
@@ -138,21 +140,23 @@ st.success("Model trained and saved successfully!")
 # Testing Section
 st.header("Model Testing")
 
+st.header("Model Testing")
+
 if uploaded_file is not None:
-    # Load the model
-    loaded_model = tf.keras.models.load_model("trained_model.tf")
+   # Load the model
+   loaded_model = tf.keras.models.load_model("trained_model.tf")
 
-    # Preprocess the uploaded image
-    img = Image.open(uploaded_file)
-    img = img.resize((IMG_SIZE, IMG_SIZE))
-    img_array = img_to_array(img)
-    img_array = np.expand_dims(img_array, axis=0)
-    img_array /= 255.0
+   # Preprocess the uploaded image
+   img = Image.open(uploaded_file)
+   img = img.resize((IMG_SIZE, IMG_SIZE))
+   img_array = img_to_array(img)
+   img_array = np.expand_dims(img_array, axis=0)
+   img_array /= 255.0
 
-    # Make predictions
-    predictions = loaded_model.predict(img_array)
+   # Make predictions
+   predictions = loaded_model.predict(img_array)
 
-    # Display predictions
-    st.write("Predictions:")
-    for i, pred in enumerate(predictions[0]):
-        st.write(f"{categories[i]}: {pred * 100:.2f}%")
+   # Display predictions
+   st.write("Predictions:")
+   for i, pred in enumerate(predictions[0]):
+       st.write(f"{categories[i]}: {pred * 100:.2f}%")
