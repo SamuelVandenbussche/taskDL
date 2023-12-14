@@ -2,5 +2,5 @@ streamlit
 Pillow
 matplotlib
 seaborn
-tensorflow==2.4.0
+tensorflow
 numpy
