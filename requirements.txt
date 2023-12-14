@@ -1,6 +1,6 @@
-streamlit
-Pillow
-matplotlib
-seaborn
-tensorflow
 numpy
+pandas
+scikit-learn
+category_encoders
+matplotlib
+tensorflow
