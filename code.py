@@ -2,13 +2,17 @@ import streamlit as st
 from PIL import Image
 import matplotlib.pyplot as plt
 import seaborn as sns
-import tensorflow as tf
-import tensorflow.keras as keras
-from keras import optimizers
-from keras import layers
-from keras.preprocessing.image import img_to_array
 import numpy as np
-from tensorflow.keras.preprocessing import image_dataset_from_directory
+
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import layers
+from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.losses import CategoricalCrossentropy
+from tensorflow.keras.metrics import Accuracy
+from tensorflow.keras.preprocessing.image import img_to_array
+from tensorflow.keras.preprocessing.image import image_dataset_from_directory
+
 
 # Define the categories
 categories = ["basketbal","golf bal","rugby bal","voetbal","tennis bal"]
@@ -134,12 +138,7 @@ fig.tight_layout()
 # Show the plots
 st.pyplot(fig)
 
-# Save the model
-model.save("trained_model.tf")
-st.success("Model trained and saved successfully!")
 
-# Testing Section
-st.header("Model Testing")
 
 st.header("Model Testing")
 
