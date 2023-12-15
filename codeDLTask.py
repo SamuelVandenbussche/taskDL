@@ -17,6 +17,8 @@ st.title("AI Task Deep Learning")
 # User input for epochs
 epochs = st.number_input("Enter the number of epochs", min_value=1, value=10, step=1)
 
+data_loaded = False
+
 # Model definition
 NUM_CLASSES = 5
 IMG_SIZE = 128
@@ -24,7 +26,8 @@ batch_size = 32
 image_size = (IMG_SIZE, IMG_SIZE)
 validation_split = 0.2
 
-if 'train_set' not in st.session_state:
+# Load and preprocess the data (only load if not loaded before)
+if not data_loaded:
     train_set = image_dataset_from_directory(
         directory=r'task_images/train',
         labels='inferred',
@@ -35,8 +38,6 @@ if 'train_set' not in st.session_state:
         subset='training',
         seed=123
     )
-    st.session_state.train_set = train_set  # store in session state
-
     validation_set = image_dataset_from_directory(
         directory=r'task_images/train',
         labels='inferred',
@@ -47,7 +48,7 @@ if 'train_set' not in st.session_state:
         subset='validation',
         seed=123
     )
-    st.session_state.validation_set = validation_set
+    data_loaded = True
 
 # Model definition
 model = keras.Sequential([
