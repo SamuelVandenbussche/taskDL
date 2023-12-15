@@ -17,9 +17,9 @@ st.write("This application is a deep learnign model for classifying a image as a
 
 st.header("EDA")
 # Display images
-st.image("EDA.JPG", width=300)
+st.image("EDA.JPG", width=600)
 # Display images
-st.image(["1a5c3f9b51.jpg", "1b71d0b173.jpg", "1d50dc8500.jpg", "3a3a3b38f4.jpg", "3cda94891a.jpg", "EDA.JPG"], width=300)
+st.image(["1a5c3f9b51.jpg", "1b71d0b173.jpg", "1d50dc8500.jpg", "3a3a3b38f4.jpg", "3cda94891a.jpg"], width=120)
 
 # User input for epochs
 epochs = st.number_input("Enter the number of epochs", min_value=1, value=10, step=1)
