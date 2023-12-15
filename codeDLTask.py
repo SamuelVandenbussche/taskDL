@@ -26,8 +26,8 @@ batch_size = 32
 image_size = (IMG_SIZE, IMG_SIZE)
 validation_split = 0.2
 
-# Load and preprocess the data (only load if not loaded before)
-if not data_loaded:
+@st.cache(allow_output_mutation=True)
+def load_and_preprocess_data():
     train_set = image_dataset_from_directory(
         directory=r'task_images/train',
         labels='inferred',
@@ -48,7 +48,9 @@ if not data_loaded:
         subset='validation',
         seed=123
     )
-    data_loaded = True
+    return train_set, validation_set
+
+train_set, validation_set = load_and_preprocess_data()
 
 # Model definition
 model = keras.Sequential([
