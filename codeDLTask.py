@@ -26,7 +26,7 @@ validation_split = 0.2
 
 # Load and preprocess the data
 train_set = image_dataset_from_directory(
-    directory=r'.\task_images\train',
+    directory=r'task_images/train',
     labels='inferred',
     label_mode='categorical',
     batch_size=batch_size,
@@ -37,7 +37,7 @@ train_set = image_dataset_from_directory(
 )
 
 validation_set = image_dataset_from_directory(
-    directory=r'.\task_images\train',
+    directory=r'task_images/train',
     labels='inferred',
     label_mode='categorical',
     batch_size=batch_size,
