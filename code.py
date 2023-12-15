@@ -1,6 +1,15 @@
 import streamlit as st
 import tensorflow as tf
-from tensorflow.keras import layers
+from tensorflow.keras.layers import (
+    Resizing,
+    Rescaling,
+    experimental,
+    Conv2D,
+    MaxPooling2D,
+    Dropout,
+    Flatten,
+    Dense,
+)
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.losses import CategoricalCrossentropy
 from tensorflow.keras.metrics import Accuracy
