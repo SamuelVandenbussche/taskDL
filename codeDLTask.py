@@ -26,31 +26,26 @@ batch_size = 32
 image_size = (IMG_SIZE, IMG_SIZE)
 validation_split = 0.2
 
-@st.cache_data
-def load_and_preprocess_data():
-    train_set = image_dataset_from_directory(
-        directory=r'task_images/train',
-        labels='inferred',
-        label_mode='categorical',
-        batch_size=batch_size,
-        image_size=image_size,
-        validation_split=validation_split,
-        subset='training',
-        seed=123
-    )
-    validation_set = image_dataset_from_directory(
-        directory=r'task_images/train',
-        labels='inferred',
-        label_mode='categorical',
-        batch_size=batch_size,
-        image_size=image_size,
-        validation_split=validation_split,
-        subset='validation',
-        seed=123
-    )
-    return train_set, validation_set
-
-train_set, validation_set = load_and_preprocess_data()
+train_set = image_dataset_from_directory(
+    directory=r'task_images/train',
+    labels='inferred',
+    label_mode='categorical',
+    batch_size=batch_size,
+    image_size=image_size,
+    validation_split=validation_split,
+    subset='training',
+    seed=123
+)
+validation_set = image_dataset_from_directory(
+    directory=r'task_images/train',
+    labels='inferred',
+    label_mode='categorical',
+    batch_size=batch_size,
+    image_size=image_size,
+    validation_split=validation_split,
+    subset='validation',
+    seed=123
+)
 
 # Model definition
 model = keras.Sequential([
