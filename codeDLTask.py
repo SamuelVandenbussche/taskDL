@@ -118,7 +118,7 @@ if uploaded_file is not None:
     st.image(uploaded_file, caption="Uploaded Image.", width=300)
 
     # Convert the uploaded image to a format compatible with the model
-    img = Image.open(uploaded_file).resize((IMG_SIZE, IMG_SIZE))
+    img = Image.open(uploaded_file).resize((128, 128))
     img_array = tf.keras.preprocessing.image.img_to_array(img)
     img_array = tf.expand_dims(img_array, 0)  # Create batch axis
 
