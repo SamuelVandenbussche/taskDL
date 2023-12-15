@@ -15,7 +15,7 @@ categories = ["basketbal", "golf bal", "rugby bal", "voetbal", "tennis bal"]
 st.title("AI Task Deep Learning")
 st.write("This application is a deep learnign model for classifying a image as a basketball, golf ball, rugby ball, soccer ball or tennis ball.")
 
-st.subtitle("EDA")
+st.header("EDA")
 # Display images
 st.image("EDA.JPG", width=300)
 # Display images
