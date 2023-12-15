@@ -8,6 +8,7 @@ from tensorflow.keras.metrics import Accuracy
 from tensorflow.keras.preprocessing import image_dataset_from_directory
 import matplotlib.pyplot as plt
 from PIL import Image
+import numpy as np
 
 
 # Define the categories
