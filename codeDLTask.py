@@ -128,8 +128,9 @@ if uploaded_file is not None:
 
     # Make predictions
     predictions = model.predict(img_array)
-    predicted_category = categories[tf.argmax(predictions[0])]
-    confidence = tf.reduce_max(predictions[0]).numpy() * 100
+    class_labels = train_set.class_names
+    predicted_category = class_labels[np.argmax(predictions[0])]
+    confidence = np.max(predictions[0]) * 100
 
     # Display predictions
     st.subheader("Prediction:")
