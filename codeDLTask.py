@@ -69,34 +69,36 @@ model = keras.Sequential([
 
 model.compile(optimizer=Adam(), loss=CategoricalCrossentropy(), metrics=[Accuracy()])
 
-# Model Training
-history = model.fit(
-    train_set,
-    validation_data=validation_set,
-    epochs=epochs
-)
+if st.button('Train the model'):
 
-# Display training metrics
-st.header("Training Metrics")
+    # Model Training
+    history = model.fit(
+        train_set,
+        validation_data=validation_set,
+        epochs=epochs
+    )
 
-# Plot loss and accuracy curves
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 5))
+    # Display training metrics
+    st.header("Training Metrics")
 
-ax1.plot(history.history['loss'], label='training loss')
-ax1.plot(history.history['val_loss'], label='validation loss')
-ax1.set_title('Loss curves')
-ax1.set_xlabel('Epoch')
-ax1.set_ylabel('Loss')
-ax1.legend()
+    # Plot loss and accuracy curves
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 5))
 
-ax2.plot(history.history['accuracy'], label='training accuracy')
-ax2.plot(history.history['val_accuracy'], label='validation accuracy')
-ax2.set_title('Accuracy curves')
-ax2.set_xlabel('Epoch')
-ax2.set_ylabel('Accuracy')
-ax2.legend()
+    ax1.plot(history.history['loss'], label='training loss')
+    ax1.plot(history.history['val_loss'], label='validation loss')
+    ax1.set_title('Loss curves')
+    ax1.set_xlabel('Epoch')
+    ax1.set_ylabel('Loss')
+    ax1.legend()
 
-fig.tight_layout()
+    ax2.plot(history.history['accuracy'], label='training accuracy')
+    ax2.plot(history.history['val_accuracy'], label='validation accuracy')
+    ax2.set_title('Accuracy curves')
+    ax2.set_xlabel('Epoch')
+    ax2.set_ylabel('Accuracy')
+    ax2.legend()
 
-# Show the plots
-st.pyplot(fig)
+    fig.tight_layout()
+
+    # Show the plots
+    st.pyplot(fig)
