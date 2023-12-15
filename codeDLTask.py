@@ -119,7 +119,7 @@ uploaded_file = st.file_uploader("Choose an image...", type="jpg")
 # Check if an image has been uploaded
 if uploaded_file is not None:
     # Display the uploaded image
-    st.image(uploaded_file, caption="Uploaded Image.", use_column_width=True)
+    st.image(uploaded_file, caption="Uploaded Image.", width=300)
 
     # Convert the uploaded image to a format compatible with the model
     img = Image.open(uploaded_file).resize((IMG_SIZE, IMG_SIZE))
