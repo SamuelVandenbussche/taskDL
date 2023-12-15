@@ -2,93 +2,89 @@ import streamlit as st
 import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import layers
-from tensorflow.keras.optimizers import Adam
-from tensorflow.keras.losses import CategoricalCrossentropy
-from tensorflow.keras.metrics import Accuracy
 from tensorflow.keras.preprocessing import image_dataset_from_directory
 import matplotlib.pyplot as plt
 from PIL import Image
 import numpy as np
 
-
 # Define the categories
-categories = ["basketbal", "golf bal", "rugby bal", "voetbal", "tennis bal"]
+categories = ["basketball", "golf ball", "rugby ball", "soccer ball", "tennis ball"]
 
 # Set Streamlit app title
 st.title("AI Task Deep Learning")
-st.write("This application is a deep learnign model for classifying a image as a basketball, golf ball, rugby ball, soccer ball or tennis ball.")
+st.write("This application is a deep learning model for classifying an image as a basketball, golf ball, rugby ball, soccer ball, or tennis ball.")
 
-st.header("EDA")
-# Display images
-st.image("EDA.JPG", width=700)
-# Display images
-st.image(["1d50dc8500.jpg", "3a3a3b38f4.jpg","1b71d0b173.jpg", "3cda94891a.jpg","1a5c3f9b51.jpg"], width=140)
+# Load data and train the model when the app is loaded
+if "train_set" not in st.session_state:
+    # Model definition
+    NUM_CLASSES = 5
+    IMG_SIZE = 128
+    batch_size = 32
+    image_size = (IMG_SIZE, IMG_SIZE)
+    validation_split = 0.2
+
+    train_set = image_dataset_from_directory(
+        directory=r'task_images/train',
+        labels='inferred',
+        label_mode='categorical',
+        batch_size=batch_size,
+        image_size=image_size,
+        validation_split=validation_split,
+        subset='training',
+        seed=123
+    )
+
+    validation_set = image_dataset_from_directory(
+        directory=r'task_images/train',
+        labels='inferred',
+        label_mode='categorical',
+        batch_size=batch_size,
+        image_size=image_size,
+        validation_split=validation_split,
+        subset='validation',
+        seed=123
+    )
+
+    # Model definition
+    model = keras.Sequential([
+        layers.Resizing(IMG_SIZE, IMG_SIZE),
+        layers.Rescaling(1./255),
+        layers.experimental.preprocessing.RandomFlip("horizontal"),
+        layers.experimental.preprocessing.RandomTranslation(0.2, 0.2),
+        layers.experimental.preprocessing.RandomZoom(0.2),
+        layers.Conv2D(32, (3, 3), input_shape=(IMG_SIZE, IMG_SIZE, 3), activation="relu"),
+        layers.MaxPooling2D((2, 2)),
+        layers.Dropout(0.2),
+        layers.Conv2D(32, (3, 3), activation="relu"),
+        layers.Dropout(0.2),
+        layers.Flatten(),
+        layers.Dense(128, activation="relu"),
+        layers.Dense(128, activation="relu"),
+        layers.Dropout(0.5),
+        layers.Dense(128, activation="relu"),
+        layers.Dense(NUM_CLASSES, activation="softmax")
+    ])
+
+    model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+
+    st.session_state.train_set = train_set
+    st.session_state.validation_set = validation_set
+    st.session_state.model = model
 
 # User input for epochs
 epochs = st.number_input("Enter the number of epochs", min_value=1, value=10, step=1)
 
-data_loaded = False
-
-# Model definition
-NUM_CLASSES = 5
-IMG_SIZE = 128
-batch_size = 32
-image_size = (IMG_SIZE, IMG_SIZE)
-validation_split = 0.2
-
-train_set = image_dataset_from_directory(
-    directory=r'task_images/train',
-    labels='inferred',
-    label_mode='categorical',
-    batch_size=batch_size,
-    image_size=image_size,
-    validation_split=validation_split,
-    subset='training',
-    seed=123
-)
-validation_set = image_dataset_from_directory(
-    directory=r'task_images/train',
-    labels='inferred',
-    label_mode='categorical',
-    batch_size=batch_size,
-    image_size=image_size,
-    validation_split=validation_split,
-    subset='validation',
-    seed=123
-)
-
-# Model definition
-model = keras.Sequential([
-    layers.Resizing(IMG_SIZE, IMG_SIZE),
-    layers.Rescaling(1./255),
-    layers.experimental.preprocessing.RandomFlip("horizontal"),
-    layers.experimental.preprocessing.RandomTranslation(0.2, 0.2),
-    layers.experimental.preprocessing.RandomZoom(0.2),
-    layers.Conv2D(32, (3, 3), input_shape=(IMG_SIZE, IMG_SIZE, 3), activation="relu"),
-    layers.MaxPooling2D((2, 2)),
-    layers.Dropout(0.2),
-    layers.Conv2D(32, (3, 3), activation="relu"),
-    layers.Dropout(0.2),
-    layers.Flatten(),
-    layers.Dense(128, activation="relu"),
-    layers.Dense(128, activation="relu"),
-    layers.Dropout(0.5),
-    layers.Dense(128, activation="relu"),
-    layers.Dense(NUM_CLASSES, activation="softmax")
-])
-
-model.compile(optimizer= 'adam', loss='categorical_crossentropy', metrics=['accuracy'])
-
+# Button to trigger model training
 if st.button('Train the model'):
-
     # Model Training
-    history = model.fit(
-        train_set,
-        validation_data=validation_set,
+    history = st.session_state.model.fit(
+        st.session_state.train_set,
+        validation_data=st.session_state.validation_set,
         epochs=epochs
     )
 
-    # Display training metrics
+    st.session_state.history = history
+
     st.header("Training Metrics")
 
     # Plot loss and accuracy curves
@@ -109,12 +105,11 @@ if st.button('Train the model'):
     ax2.legend()
 
     fig.tight_layout()
-    # Image uploader
-
-    # Show the plots
     st.pyplot(fig)
 
-st.header("only upload image when model is trained")
+# Image uploader
+st.header("Upload Image")
+
 uploaded_file = st.file_uploader("Choose an image...", type="jpg")
 
 # Check if an image has been uploaded
@@ -128,8 +123,8 @@ if uploaded_file is not None:
     img_array = tf.expand_dims(img_array, 0)  # Create batch axis
 
     # Make predictions
-    predictions = model.predict(img_array)
-    class_labels = train_set.class_names
+    predictions = st.session_state.model.predict(img_array)
+    class_labels = st.session_state.train_set.class_names
     predicted_category = class_labels[np.argmax(predictions[0])]
     confidence = np.max(predictions[0]) * 100
 
