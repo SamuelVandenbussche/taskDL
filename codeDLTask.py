@@ -105,7 +105,14 @@ if st.button('Train the model'):
     ax2.legend()
 
     fig.tight_layout()
-    st.pyplot(fig)
+
+    # Create or update the plot elements
+    if "loss_plot" not in st.session_state:
+        st.session_state.loss_plot = st.empty()
+    if "acc_plot" not in st.session_state:
+        st.session_state.acc_plot = st.empty()
+
+    st.session_state.loss_plot.pyplot(fig)
 
 # Image uploader
 st.header("Upload Image")
