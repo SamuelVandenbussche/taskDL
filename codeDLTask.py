@@ -2,28 +2,16 @@ import streamlit as st
 import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import layers
-from tensorflow.keras.optimizers import Adam
-from tensorflow.keras.losses import CategoricalCrossentropy
-from tensorflow.keras.metrics import Accuracy
 from tensorflow.keras.preprocessing import image_dataset_from_directory
 import matplotlib.pyplot as plt
 from PIL import Image
 import numpy as np
 
-
 # Set Streamlit app title
 st.title("AI Task Deep Learning")
-st.write("This application is a deep learnign model for classifying a image as a basketball, golf ball, rugby ball, soccer ball or tennis ball.")
+st.write("This application is a deep learning model for classifying an image as a basketball, golf ball, rugby ball, soccer ball, or tennis ball.")
 
-st.header("EDA")
-# Display images
-st.image("EDA.JPG", width=700)
-# Display images
-st.image(["1d50dc8500.jpg", "3a3a3b38f4.jpg","1b71d0b173.jpg", "3cda94891a.jpg","1a5c3f9b51.jpg"], width=140)
-
-# User input for epochs
-epochs = st.number_input("Enter the number of epochs", min_value=1, value=10, step=1)
-
+# Load data and train the model when the app is loaded
 if "train_set" not in st.session_state:
     # Model definition
     NUM_CLASSES = 5
@@ -77,15 +65,21 @@ if "train_set" not in st.session_state:
     model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
     st.session_state.train_set = train_set
     st.session_state.validation_set = validation_set
+    st.session_state.model = model
 
+# User input for epochs
+epochs = st.number_input("Enter the number of epochs", min_value=1, value=10, step=1)
+
+# Button to trigger model training
 if st.button('Train the model'):
-
     # Model Training
-    history = model.fit(
-        train_set,
-        validation_data=validation_set,
+    history = st.session_state.model.fit(
+        st.session_state.train_set,
+        validation_data=st.session_state.validation_set,
         epochs=epochs
     )
+
+    st.session_state.history = history
 
     st.header("Training Metrics")
     
@@ -123,8 +117,8 @@ if uploaded_file is not None:
     img_array = tf.expand_dims(img_array, 0)  # Create batch axis
 
     # Make predictions
-    predictions = model.predict(img_array)
-    class_labels = train_set.class_names
+    predictions = st.session_state.model.predict(img_array)
+    class_labels = st.session_state.train_set.class_names
     predicted_category = class_labels[np.argmax(predictions[0])]
     confidence = np.max(predictions[0]) * 100
 
