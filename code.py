@@ -1,15 +1,7 @@
 import streamlit as st
 import tensorflow as tf
-from tensorflow.keras.layers import (
-    Resizing,
-    Rescaling,
-    experimental,
-    Conv2D,
-    MaxPooling2D,
-    Dropout,
-    Flatten,
-    Dense,
-)
+from tensorflow import keras
+from tensorflow.keras import layers
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.losses import CategoricalCrossentropy
 from tensorflow.keras.metrics import Accuracy
@@ -56,23 +48,23 @@ validation_set = image_dataset_from_directory(
 )
 
 # Model definition
-model = tf.keras.Sequential([
-    Resizing(IMG_SIZE, IMG_SIZE),
-    Rescaling(1./255),
-    experimental.preprocessing.RandomFlip("horizontal"),
-    experimental.preprocessing.RandomTranslation(0.2, 0.2),
-    experimental.preprocessing.RandomZoom(0.2),
-    Conv2D(32, (3, 3), input_shape=(IMG_SIZE, IMG_SIZE, 3), activation="relu"),
-    MaxPooling2D((2, 2)),
-    Dropout(0.2),
-    Conv2D(32, (3, 3), activation="relu"),
-    Dropout(0.2),
-    Flatten(),
-    Dense(128, activation="relu"),
-    Dense(128, activation="relu"),
-    Dropout(0.5),
-    Dense(128, activation="relu"),
-    Dense(NUM_CLASSES, activation="softmax")
+model = keras.Sequential([
+    layers.Resizing(IMG_SIZE, IMG_SIZE),
+    layers.Rescaling(1./255),
+    layers.experimental.preprocessing.RandomFlip("horizontal"),
+    layers.experimental.preprocessing.RandomTranslation(0.2, 0.2),
+    layers.experimental.preprocessing.RandomZoom(0.2),
+    layers.Conv2D(32, (3, 3), input_shape=(IMG_SIZE, IMG_SIZE, 3), activation="relu"),
+    layers.MaxPooling2D((2, 2)),
+    layers.Dropout(0.2),
+    layers.Conv2D(32, (3, 3), activation="relu"),
+    layers.Dropout(0.2),
+    layers.Flatten(),
+    layers.Dense(128, activation="relu"),
+    layers.Dense(128, activation="relu"),
+    layers.Dropout(0.5),
+    layers.Dense(128, activation="relu"),
+    layers.Dense(NUM_CLASSES, activation="softmax")
 ])
 
 model.compile(optimizer=Adam(), loss=CategoricalCrossentropy(), metrics=[Accuracy()])
