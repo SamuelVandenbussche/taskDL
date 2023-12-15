@@ -7,6 +7,8 @@ from tensorflow.keras.losses import CategoricalCrossentropy
 from tensorflow.keras.metrics import Accuracy
 from tensorflow.keras.preprocessing import image_dataset_from_directory
 import matplotlib.pyplot as plt
+from PIL import Image
+
 
 # Define the categories
 categories = ["basketbal", "golf bal", "rugby bal", "voetbal", "tennis bal"]
@@ -119,13 +121,8 @@ if uploaded_file is not None:
     # Display the uploaded image
     st.image(uploaded_file, caption="Uploaded Image.", use_column_width=True)
 
-    # Save the uploaded file to a temporary location
-    temp_file = tempfile.NamedTemporaryFile(delete=False)
-    temp_file.write(uploaded_file.read())
-    temp_file_path = temp_file.name
-
     # Convert the uploaded image to a format compatible with the model
-    img = Image.open(temp_file_path).resize((IMG_SIZE, IMG_SIZE))
+    img = Image.open(uploaded_file).resize((IMG_SIZE, IMG_SIZE))
     img_array = tf.keras.preprocessing.image.img_to_array(img)
     img_array = tf.expand_dims(img_array, 0)  # Create batch axis
 
@@ -137,6 +134,3 @@ if uploaded_file is not None:
     # Display predictions
     st.subheader("Prediction:")
     st.write(f"The uploaded image is most likely a '{predicted_category}' with {confidence:.2f}% confidence.")
-
-    # Close and remove the temporary file
-    temp_file.close()
