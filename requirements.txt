@@ -4,4 +4,4 @@ Pillow
 matplotlib
 seaborn
 numpy
-python
+python==3.10.11
