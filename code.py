@@ -17,7 +17,7 @@ from tensorflow.keras.preprocessing.image import image_dataset_from_directory
 import matplotlib.pyplot as plt
 
 # Define the categories
-categories = ["basketbal","golf bal","rugby bal","voetbal","tennis bal"]
+categories = ["basketbal", "golf bal", "rugby bal", "voetbal", "tennis bal"]
 
 # Set Streamlit app title
 st.title("AI Task Deep Learning")
@@ -34,54 +34,54 @@ validation_split = 0.2
 
 # Load and preprocess the data
 train_set = image_dataset_from_directory(
-   directory=r'.\task_images\train',
-   labels='inferred',
-   label_mode='categorical',
-   batch_size=batch_size,
-   image_size=image_size,
-   validation_split=validation_split,
-   subset='training',
-   seed=123
+    directory=r'.\task_images\train',
+    labels='inferred',
+    label_mode='categorical',
+    batch_size=batch_size,
+    image_size=image_size,
+    validation_split=validation_split,
+    subset='training',
+    seed=123
 )
 
 validation_set = image_dataset_from_directory(
-   directory=r'.\task_images\train',
-   labels='inferred',
-   label_mode='categorical',
-   batch_size=batch_size,
-   image_size=image_size,
-   validation_split=validation_split,
-   subset='validation',
-   seed=123
+    directory=r'.\task_images\train',
+    labels='inferred',
+    label_mode='categorical',
+    batch_size=batch_size,
+    image_size=image_size,
+    validation_split=validation_split,
+    subset='validation',
+    seed=123
 )
 
 # Model definition
 model = tf.keras.Sequential([
-  layers.Resizing(IMG_SIZE, IMG_SIZE),
-  layers.Rescaling(1./255),
-  layers.experimental.preprocessing.RandomFlip("horizontal"),
-  layers.experimental.preprocessing.RandomTranslation(0.2, 0.2),
-  layers.experimental.preprocessing.RandomZoom(0.2),
-  layers.Conv2D(32, (3, 3), input_shape=(IMG_SIZE, IMG_SIZE, 3), activation="relu"),
-  layers.MaxPooling2D((2, 2)),
-  layers.Dropout(0.2),
-  layers.Conv2D(32, (3, 3), activation="relu"),
-  layers.Dropout(0.2),
-  layers.Flatten(),
-  layers.Dense(128, activation="relu"),
-  layers.Dense(128, activation="relu"),
-  layers.Dropout(0.5),
-  layers.Dense(128, activation="relu"),
-  layers.Dense(NUM_CLASSES, activation="softmax")
+    Resizing(IMG_SIZE, IMG_SIZE),
+    Rescaling(1./255),
+    experimental.preprocessing.RandomFlip("horizontal"),
+    experimental.preprocessing.RandomTranslation(0.2, 0.2),
+    experimental.preprocessing.RandomZoom(0.2),
+    Conv2D(32, (3, 3), input_shape=(IMG_SIZE, IMG_SIZE, 3), activation="relu"),
+    MaxPooling2D((2, 2)),
+    Dropout(0.2),
+    Conv2D(32, (3, 3), activation="relu"),
+    Dropout(0.2),
+    Flatten(),
+    Dense(128, activation="relu"),
+    Dense(128, activation="relu"),
+    Dropout(0.5),
+    Dense(128, activation="relu"),
+    Dense(NUM_CLASSES, activation="softmax")
 ])
 
 model.compile(optimizer=Adam(), loss=CategoricalCrossentropy(), metrics=[Accuracy()])
 
 # Model Training
 history = model.fit(
-   train_set,
-   validation_data=validation_set,
-   epochs=epochs
+    train_set,
+    validation_data=validation_set,
+    epochs=epochs
 )
 
 # Display training metrics
