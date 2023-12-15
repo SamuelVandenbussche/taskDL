@@ -5,6 +5,7 @@ from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.losses import CategoricalCrossentropy
 from tensorflow.keras.metrics import Accuracy
 from tensorflow.keras.preprocessing.image import image_dataset_from_directory
+import matplotlib.pyplot as plt
 
 # Define the categories
 categories = ["basketbal","golf bal","rugby bal","voetbal","tennis bal"]
