@@ -19,7 +19,7 @@ st.header("EDA")
 # Display images
 st.image("EDA.JPG", width=600)
 # Display images
-st.image(["1a5c3f9b51.jpg", "1b71d0b173.jpg", "1d50dc8500.jpg", "3a3a3b38f4.jpg", "3cda94891a.jpg"], width=120)
+st.image(["1d50dc8500.jpg", "3a3a3b38f4.jpg","1b71d0b173.jpg", "3cda94891a.jpg","1a5c3f9b51.jpg"], width=120)
 
 # User input for epochs
 epochs = st.number_input("Enter the number of epochs", min_value=1, value=10, step=1)
