@@ -110,24 +110,25 @@ if st.button('Train the model'):
 
     # Show the plots
     st.pyplot(fig)
-    
-    uploaded_file = st.file_uploader("Choose an image...", type="jpg")
 
-    # Check if an image has been uploaded
-    if uploaded_file is not None:
-        # Display the uploaded image
-        st.image(uploaded_file, caption="Uploaded Image.", use_column_width=True)
+st.header("only upload image when model is trained")
+uploaded_file = st.file_uploader("Choose an image...", type="jpg")
+
+# Check if an image has been uploaded
+if uploaded_file is not None:
+    # Display the uploaded image
+    st.image(uploaded_file, caption="Uploaded Image.", use_column_width=True)
     
-        # Convert the uploaded image to a format compatible with the model
-        img = Image.open(uploaded_file).resize((IMG_SIZE, IMG_SIZE))
-        img_array = tf.keras.preprocessing.image.img_to_array(img)
-        img_array = tf.expand_dims(img_array, 0)  # Create batch axis
+    # Convert the uploaded image to a format compatible with the model
+    img = Image.open(uploaded_file).resize((IMG_SIZE, IMG_SIZE))
+    img_array = tf.keras.preprocessing.image.img_to_array(img)
+    img_array = tf.expand_dims(img_array, 0)  # Create batch axis
     
-        # Make predictions
-        predictions = model.predict(img_array)
-        predicted_category = categories[tf.argmax(predictions[0])]
-        confidence = tf.reduce_max(predictions[0]).numpy() * 100
+    # Make predictions
+    predictions = model.predict(img_array)
+    predicted_category = categories[tf.argmax(predictions[0])]
+    confidence = tf.reduce_max(predictions[0]).numpy() * 100
     
-        # Display predictions
-        st.subheader("Prediction:")
-        st.write(f"The uploaded image is most likely a '{predicted_category}' with {confidence:.2f}% confidence.")
+    # Display predictions
+    st.subheader("Prediction:")
+    st.write(f"The uploaded image is most likely a '{predicted_category}' with {confidence:.2f}% confidence.")
