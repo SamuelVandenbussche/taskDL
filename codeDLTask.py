@@ -11,6 +11,12 @@ import numpy as np
 st.title("AI Task Deep Learning")
 st.write("This application is a deep learning model for classifying an image as a basketball, golf ball, rugby ball, soccer ball, or tennis ball.")
 
+st.header("EDA")
+# Display images
+st.image("EDA.JPG", width=700)
+# Display images
+st.image(["1d50dc8500.jpg", "3a3a3b38f4.jpg","1b71d0b173.jpg", "3cda94891a.jpg","1a5c3f9b51.jpg"], width=140)
+
 # Load data and train the model when the app is loaded
 if "train_set" not in st.session_state:
     # Model definition
