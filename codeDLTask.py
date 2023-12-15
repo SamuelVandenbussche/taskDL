@@ -24,28 +24,30 @@ batch_size = 32
 image_size = (IMG_SIZE, IMG_SIZE)
 validation_split = 0.2
 
-# Load and preprocess the data
-train_set = image_dataset_from_directory(
-    directory=r'task_images/train',
-    labels='inferred',
-    label_mode='categorical',
-    batch_size=batch_size,
-    image_size=image_size,
-    validation_split=validation_split,
-    subset='training',
-    seed=123
-)
+if 'train_set' not in st.session_state:
+    train_set = image_dataset_from_directory(
+        directory=r'task_images/train',
+        labels='inferred',
+        label_mode='categorical',
+        batch_size=batch_size,
+        image_size=image_size,
+        validation_split=validation_split,
+        subset='training',
+        seed=123
+    )
+    st.session_state.train_set = train_set  # store in session state
 
-validation_set = image_dataset_from_directory(
-    directory=r'task_images/train',
-    labels='inferred',
-    label_mode='categorical',
-    batch_size=batch_size,
-    image_size=image_size,
-    validation_split=validation_split,
-    subset='validation',
-    seed=123
-)
+    validation_set = image_dataset_from_directory(
+        directory=r'task_images/train',
+        labels='inferred',
+        label_mode='categorical',
+        batch_size=batch_size,
+        image_size=image_size,
+        validation_split=validation_split,
+        subset='validation',
+        seed=123
+    )
+    st.session_state.validation_set = validation_set
 
 # Model definition
 model = keras.Sequential([
@@ -67,7 +69,7 @@ model = keras.Sequential([
     layers.Dense(NUM_CLASSES, activation="softmax")
 ])
 
-model.compile(optimizer=Adam(), loss=CategoricalCrossentropy(), metrics=[Accuracy()])
+model.compile(optimizer= 'adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
 if st.button('Train the model'):
 
