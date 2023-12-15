@@ -24,57 +24,59 @@ st.image(["1d50dc8500.jpg", "3a3a3b38f4.jpg","1b71d0b173.jpg", "3cda94891a.jpg",
 # User input for epochs
 epochs = st.number_input("Enter the number of epochs", min_value=1, value=10, step=1)
 
-data_loaded = False
+if "train_set" not in st.session_state:
+    # Model definition
+    NUM_CLASSES = 5
+    IMG_SIZE = 128
+    batch_size = 32
+    image_size = (IMG_SIZE, IMG_SIZE)
+    validation_split = 0.2
 
-# Model definition
-NUM_CLASSES = 5
-IMG_SIZE = 128
-batch_size = 32
-image_size = (IMG_SIZE, IMG_SIZE)
-validation_split = 0.2
+    train_set = image_dataset_from_directory(
+        directory=r'task_images/train',
+        labels='inferred',
+        label_mode='categorical',
+        batch_size=batch_size,
+        image_size=image_size,
+        validation_split=validation_split,
+        subset='training',
+        seed=123
+    )
 
-train_set = image_dataset_from_directory(
-    directory=r'task_images/train',
-    labels='inferred',
-    label_mode='categorical',
-    batch_size=batch_size,
-    image_size=image_size,
-    validation_split=validation_split,
-    subset='training',
-    seed=123
-)
-validation_set = image_dataset_from_directory(
-    directory=r'task_images/train',
-    labels='inferred',
-    label_mode='categorical',
-    batch_size=batch_size,
-    image_size=image_size,
-    validation_split=validation_split,
-    subset='validation',
-    seed=123
-)
+    validation_set = image_dataset_from_directory(
+        directory=r'task_images/train',
+        labels='inferred',
+        label_mode='categorical',
+        batch_size=batch_size,
+        image_size=image_size,
+        validation_split=validation_split,
+        subset='validation',
+        seed=123
+    )
 
-# Model definition
-model = keras.Sequential([
-    layers.Resizing(IMG_SIZE, IMG_SIZE),
-    layers.Rescaling(1./255),
-    layers.experimental.preprocessing.RandomFlip("horizontal"),
-    layers.experimental.preprocessing.RandomTranslation(0.2, 0.2),
-    layers.experimental.preprocessing.RandomZoom(0.2),
-    layers.Conv2D(32, (3, 3), input_shape=(IMG_SIZE, IMG_SIZE, 3), activation="relu"),
-    layers.MaxPooling2D((2, 2)),
-    layers.Dropout(0.2),
-    layers.Conv2D(32, (3, 3), activation="relu"),
-    layers.Dropout(0.2),
-    layers.Flatten(),
-    layers.Dense(128, activation="relu"),
-    layers.Dense(128, activation="relu"),
-    layers.Dropout(0.5),
-    layers.Dense(128, activation="relu"),
-    layers.Dense(NUM_CLASSES, activation="softmax")
-])
+    # Model definition
+    model = keras.Sequential([
+        layers.Resizing(IMG_SIZE, IMG_SIZE),
+        layers.Rescaling(1./255),
+        layers.experimental.preprocessing.RandomFlip("horizontal"),
+        layers.experimental.preprocessing.RandomTranslation(0.2, 0.2),
+        layers.experimental.preprocessing.RandomZoom(0.2),
+        layers.Conv2D(32, (3, 3), input_shape=(IMG_SIZE, IMG_SIZE, 3), activation="relu"),
+        layers.MaxPooling2D((2, 2)),
+        layers.Dropout(0.2),
+        layers.Conv2D(32, (3, 3), activation="relu"),
+        layers.Dropout(0.2),
+        layers.Flatten(),
+        layers.Dense(128, activation="relu"),
+        layers.Dense(128, activation="relu"),
+        layers.Dropout(0.5),
+        layers.Dense(128, activation="relu"),
+        layers.Dense(NUM_CLASSES, activation="softmax")
+    ])
 
-model.compile(optimizer= 'adam', loss='categorical_crossentropy', metrics=['accuracy'])
+    model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+    st.session_state.train_set = train_set
+    st.session_state.validation_set = validation_set
 
 if st.button('Train the model'):
 
