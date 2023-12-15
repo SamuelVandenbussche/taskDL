@@ -26,7 +26,7 @@ batch_size = 32
 image_size = (IMG_SIZE, IMG_SIZE)
 validation_split = 0.2
 
-@st.cache_data(allow_output_mutation=True)
+@st.cache_data
 def load_and_preprocess_data():
     train_set = image_dataset_from_directory(
         directory=r'task_images/train',
