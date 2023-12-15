@@ -4,4 +4,3 @@ Pillow
 matplotlib
 seaborn
 numpy
-PIL
