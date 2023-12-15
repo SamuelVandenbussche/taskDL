@@ -11,9 +11,6 @@ from PIL import Image
 import numpy as np
 
 
-# Define the categories
-categories = ["basketbal", "golf bal", "rugby bal", "voetbal", "tennis bal"]
-
 # Set Streamlit app title
 st.title("AI Task Deep Learning")
 st.write("This application is a deep learnign model for classifying a image as a basketball, golf ball, rugby ball, soccer ball or tennis ball.")
@@ -88,27 +85,27 @@ if st.button('Train the model'):
         epochs=epochs
     )
 
-st.header("Training Metrics")
-
-# Plot loss and accuracy curves
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 5))
-
-ax1.plot(history.history['loss'], label='training loss')
-ax1.plot(history.history['val_loss'], label='validation loss')
-ax1.set_title('Loss curves')
-ax1.set_xlabel('Epoch')
-ax1.set_ylabel('Loss')
-ax1.legend()
-
-ax2.plot(history.history['accuracy'], label='training accuracy')
-ax2.plot(history.history['val_accuracy'], label='validation accuracy')
-ax2.set_title('Accuracy curves')
-ax2.set_xlabel('Epoch')
-ax2.set_ylabel('Accuracy')
-ax2.legend()
-
-fig.tight_layout()
-st.pyplot(fig)
+    st.header("Training Metrics")
+    
+    # Plot loss and accuracy curves
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 5))
+    
+    ax1.plot(history.history['loss'], label='training loss')
+    ax1.plot(history.history['val_loss'], label='validation loss')
+    ax1.set_title('Loss curves')
+    ax1.set_xlabel('Epoch')
+    ax1.set_ylabel('Loss')
+    ax1.legend()
+    
+    ax2.plot(history.history['accuracy'], label='training accuracy')
+    ax2.plot(history.history['val_accuracy'], label='validation accuracy')
+    ax2.set_title('Accuracy curves')
+    ax2.set_xlabel('Epoch')
+    ax2.set_ylabel('Accuracy')
+    ax2.legend()
+    
+    fig.tight_layout()
+    st.pyplot(fig)
 
 st.header("only upload image when model is trained")
 uploaded_file = st.file_uploader("Choose an image...", type="jpg")
